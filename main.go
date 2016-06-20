@@ -1,37 +1,50 @@
 package main
 
 import (
-	"fmt"
-	"io"
+	"database/sql"
+	"flag"
+	"html/template"
+	"log"
 	"net/http"
+	"strconv"
+
+	_ "github.com/mattn/go-sqlite3"
 )
+
+type Application struct {
+	db        *sql.DB
+	cfg       *Config
+	templates *template.Template
+}
 
 func main() {
 
-	mux := make(map[string]func(http.ResponseWriter, *http.Request))
+	confPtr := flag.String("conf", "./config.json", "Config file path")
 
-	server := http.Server{
-		Addr: ":29000",
-		Handler: &masterHandler{
-			mux: mux,
-		},
+	flag.Parse()
+
+	config := LoadConfigFromFile(*confPtr)
+
+	db, err := sql.Open("sqlite3", config.Dbfile)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	mux["/"] = index
-
-	err := server.ListenAndServe()
-	fmt.Println(err.Error())
-}
-
-type masterHandler struct {
-	mux map[string]func(http.ResponseWriter, *http.Request)
-}
-
-func (m *masterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if h, ok := m.mux[r.URL.String()]; ok {
-		h(w, r)
-		return
+	app := Application{
+		db:        db,
+		cfg:       config,
+		templates: template.Must(template.ParseGlob("templates/*")),
 	}
 
-	io.WriteString(w, "My server: "+r.URL.String())
+	http.HandleFunc("/", app.index)
+	http.HandleFunc("/hosts", app.hosts)
+	http.HandleFunc("/hosts/edit", app.hostedit)
+	http.HandleFunc("/user/", app.users)
+	http.HandleFunc("/user/list/", app.userlist)
+
+	addr := app.cfg.BindAddress + ":" + strconv.Itoa(app.cfg.Port)
+
+	// Serve static files from static subdirectory
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	http.ListenAndServe(addr, nil)
 }

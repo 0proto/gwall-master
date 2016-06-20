@@ -1,0 +1,37 @@
+{{define "hostEditPage"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "header" }}
+
+<body>
+  {{ template "navbar" }}
+  <!-- Begin page content -->
+  <div class="container">
+    <div class="page-header">
+      <h2>Edit host #{{ .Host.ID }}</h2>
+    </div>
+    <form method="post" action="edit">
+      <fieldset class="form-group">
+        <label for="hostName">Name</label>
+        <input type="text" class="form-control" id="hostName" placeholder="Host Name" value="{{ .Host.Name }}">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="hostAddress">Address</label>
+        <input type="text" class="form-control" id="hostAddress" placeholder="Address" value="{{ .Host.Address }}">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="hostEnabled">Enabled</label>
+        <input type="checkbox" class="form-control" id="hostEnabled" value="{{ .Host.Enabled }}">
+      </fieldset>
+      <input type="submit" class="btn btn-primary"></input>
+    </form>
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted">gwall, 2016</p>
+    </div>
+  </footer>
+</body>
+
+</html>
+{{end}}

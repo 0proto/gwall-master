@@ -1,0 +1,7 @@
+{
+    "address": "",
+    "port": 29000,
+    "dbfile": "./gwallmaster.db",
+    "adminuser": "admin",
+    "adminpass": "admin"
+}

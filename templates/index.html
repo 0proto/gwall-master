@@ -1,17 +1,40 @@
-<!doctype html>
-
+{{define "indexPage"}}
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  {{ template "header" }}
+  <body>
+    {{ template "navbar" }}
 
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+        <h2>Welcome, {{ .UserName }}.</h2>
+      </div>
+      <p class="lead">You are logged in gwall master server. You can use one of the following options:</p>
+      <ul>
+          <li>Hosts: defined hosts. Add/Edit/Remove monitored hosts.</li>
+          <li>Users: registred users. Add/Edit/Remove users here. Users will receive notifications, as new alerts will be generated.</li>
+          <li>Alerts: generated alerts from all enabled hosts.</li>
+          <li>Notifications: all sent notifications history.</li>
+      </ul>
+      <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+    </div>
 
-  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> !-->
-</head>
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">gwall, 2016</p>
+      </div>
+    </footer>
 
-<body>
-  <!-- script src="js/scripts.js"></script> !-->
-</body>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 </html>
+{{end}}

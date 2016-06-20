@@ -1,0 +1,51 @@
+{{define "hostsPage"}}
+<!DOCTYPE html>
+<html lang="en">
+  {{ template "header" }}
+  <body>
+    {{ template "navbar" }}
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+        <h2>Hosts.</h2>
+      </div>
+      <p class="lead">Below are listed hosts, registred in system. You can add, remove, edit hosts and check their status.</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Enabled</th>
+      <th>Added</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range .Hosts }}
+        <tr>
+      <td>{{ .ID }}</td>
+      <td>{{ .Name }}</td>
+      <td>{{ .Address }}</td>
+      <td>{{ .Enabled }}</td>
+      <td>{{ .Added }}</td>
+      <td>
+         <a href="hosts/status" class="btn btn-info btn-sm" role="button">Status</a>
+         <a href="hosts/edit?id={{ .ID }}" class="btn btn-primary btn-sm" role="button">Edit</a>
+         <a href="hosts/delete" class="btn btn-danger btn-sm" role="button">Delete</a>
+        </td>
+      </tr>
+    {{ end }}
+  </tbody>
+  </table>
+      <p><a class="btn btn-primary" href="#" role="button">Add New Host</a></p>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">gwall, 2016</p>
+      </div>
+    </footer>
+  </body>
+</html>
+{{end}}
